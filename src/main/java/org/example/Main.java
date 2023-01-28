@@ -15,11 +15,13 @@ public class Main {
     public static void main(String[] args) {
         BayesClassifier<String, String> bayes = new BayesClassifier<>();
 
-        String pathPositiveTexts = "src\\main\\resources\\positiveReviews.txt";
-        String pathNegativeTexts = "src\\main\\resources\\negativeReviews.txt";
+        String pathPositiveReviews = "src\\main\\resources\\positiveReviews.txt";
+        String pathNegativeReviews = "src\\main\\resources\\negativeReviews.txt";
+        String pathUnknownReviews = "src\\main\\resources\\unknownReviews.txt";
 
-        List<String> listPositiveReviews = getTexts(pathPositiveTexts);
-        List<String> listNegativeReviews = getTexts(pathNegativeTexts);
+        List<String> listPositiveReviews = getTexts(pathPositiveReviews);
+        List<String> listNegativeReviews = getTexts(pathNegativeReviews);
+        List<String> listUnknownReviews = getTexts(pathUnknownReviews);
 
         for (String text : listPositiveReviews) {
             bayes.learn("positive", Arrays.asList(text.split("\\s")));
@@ -29,7 +31,17 @@ public class Main {
             bayes.learn("negative", Arrays.asList(text.split("\\s")));
         }
 
+        for (int i = 0; i < listUnknownReviews.size(); i++) {
+            if (i%2==0){
+                System.out.println("expected: negative");
 
+            } else {
+                System.out.println("expected: positive");
+            }
+
+            System.out.println("was: " + bayes.classify(Arrays.asList(listUnknownReviews.get(i).split("\\s"))).getCategory());
+            System.out.println("-------------------");
+        }
     }
 
     public static List<String> getTexts(String path){
