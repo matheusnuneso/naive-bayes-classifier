@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
+
+    public static List<Integer> linesWrongCategory = new ArrayList<>();
+
     public static void main(String[] args) {
         BayesClassifier<String, String> bayes = new BayesClassifier<>();
 
@@ -32,15 +35,30 @@ public class Main {
         }
 
         for (int i = 0; i < listUnknownReviews.size(); i++) {
+            String category = bayes.classify(Arrays.asList(listUnknownReviews.get(i).split("\\s"))).getCategory();
+
             if (i%2==0){
                 System.out.println("expected: negative");
 
+                if (!category.equals("negative")) {
+                    linesWrongCategory.add(i+1);
+                }
+
             } else {
                 System.out.println("expected: positive");
+
+                if (!category.equals("positive")) {
+                    linesWrongCategory.add(i+1);
+                }
             }
 
-            System.out.println("was: " + bayes.classify(Arrays.asList(listUnknownReviews.get(i).split("\\s"))).getCategory());
+            System.out.println("was: " + category);
             System.out.println("-------------------");
+        }
+
+        System.out.print("Linhas que o classificador errou: ");
+        for (Integer line : linesWrongCategory) {
+            System.out.print(line + ", ");
         }
     }
 
