@@ -15,28 +15,20 @@ public class Main {
     public static void main(String[] args) {
         BayesClassifier<String, String> bayes = new BayesClassifier<>();
 
-        String pathPositiveTexts = "src\\main\\resources\\positiveTexts.txt";
-        String pathNegativeTexts = "src\\main\\resources\\negativeTexts.txt";
+        String pathPositiveTexts = "src\\main\\resources\\positiveReviews.txt";
+        String pathNegativeTexts = "src\\main\\resources\\negativeReviews.txt";
 
-        List<String> listPositiveTexts = getTexts(pathPositiveTexts);
-        List<String> listNegativeTexts = getTexts(pathNegativeTexts);
+        List<String> listPositiveReviews = getTexts(pathPositiveTexts);
+        List<String> listNegativeReviews = getTexts(pathNegativeTexts);
 
-        for (String text : listPositiveTexts) {
+        for (String text : listPositiveReviews) {
             bayes.learn("positive", Arrays.asList(text.split("\\s")));
         }
 
-        for (String text : listNegativeTexts) {
+        for (String text : listNegativeReviews) {
             bayes.learn("negative", Arrays.asList(text.split("\\s")));
         }
 
-        String[] unknownText =
-                Normalizer.normalize("sistema maravilhoso, me ajudou a alcançar resultados incriveis", Normalizer.Form.NFD)
-                        .replaceAll("[^\\p{ASCII}]", "")
-                        .replaceAll("[^a-zA-Z0-9\\s+]", "")
-                        .toLowerCase()
-                        .split("\\s");
-
-        System.out.println(bayes.classify(Arrays.asList(unknownText)).getCategory());
 
     }
 
