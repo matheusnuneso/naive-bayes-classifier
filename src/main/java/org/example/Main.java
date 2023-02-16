@@ -1,6 +1,5 @@
 package org.example;
 
-import de.daslaboratorium.machinelearning.classifier.Classifier;
 import de.daslaboratorium.machinelearning.classifier.bayes.BayesClassifier;
 
 import java.io.BufferedReader;
